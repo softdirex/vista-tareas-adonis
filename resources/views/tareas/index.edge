@@ -1,0 +1,77 @@
+@layout('master')
+@section('content')
+    <div class="box">
+        <h2 class="title">Nueva Tarea</h2>
+        <form action="/tareas" method="POST">
+            {{ csrfField() }}
+            <div class="field has-addons">
+                <div class="control is expanded">
+                    <input class="input" type="text" name="title" value="{{ old('title','')}}" placeholder="Tarea">
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-primary">
+                        Añadir Tarea
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    {{ elIf('<div class="box"><div class="notification is-danger">$self</div></div>', getErrorFor('title'), hasErrorFor('title')) }}
+    @if(old('notification'))
+    <div class="box">
+        <div class="notification is-success">
+            {{ old('notification') }}
+        </div>
+    </div>
+  @endif
+    <div class="box">
+    <h1 class="title">Lista de tareas</h1>
+    <table class="table is-bordered is-striped is-narrow is-fullwidth">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Titulo</th>
+        </tr>
+      </thead>
+      @each(tarea in tareas)
+      <tbody>
+          <tr>
+            <form action="{{ 'tareas/' + tarea.id + '?_method=PUT' }}" method="POST">
+                {{ csrfField() }}
+            <td>
+			 {{ ($loop.index + 1) }}
+            </td>
+            <td>
+                <input class="input" type="text" name="title" value="{{tarea.title}}">
+            </td>
+            <td>
+                  <button type="submit" class="button is-info is-outlined">
+                    <span>MODIFICAR</span>
+                    <span class="icon is-small">
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </span>
+                  </button>
+            </td>
+            </form>
+            <td>
+                <form action="{{ 'tareas/' + tarea.id + '?_method=DELETE' }}" method="POST">
+                    {{ csrfField() }}
+                    <button type="submit" class="button is-danger is-outlined">
+                      <span>BORRAR</span>
+                      <span class="icon is-small">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                </form>
+              </td>
+          </tr>
+      </tbody>
+      @else
+        <tbody>
+          <tr><td></td><td>No existen tareas para mostrar</td><td></td></tr>
+        </tbody>
+      @endeach
+    </table>
+  </div>
+@endsection
