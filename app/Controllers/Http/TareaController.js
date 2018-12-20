@@ -1,11 +1,12 @@
 'use strict'
 
 const Tarea = use('App/Models/Tarea')
+const data = use('App/Utils/Data')
 const { validate } = use('Validator')
 
 class TareaController {
     async index ({view}){
-        const tareas = await Tarea.all()
+        const tareas = await data.execApi('/tareas',{idUser:auth.user.id, estado:0});
         return view.render('tareas.index', {tareas: tareas.toJSON()})
     }
 
