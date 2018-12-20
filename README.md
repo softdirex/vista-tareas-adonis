@@ -8,7 +8,7 @@ Copie el siguiente fragmento y péguelo en su archivo `.env`
 
 ```.env
 HOST=127.0.0.1
-PORT=4444
+PORT=3333
 NODE_ENV=development
 APP_URL=http://${HOST}:${PORT}
 CACHE_VIEWS=false
@@ -30,6 +30,16 @@ Luego ejecute el comando `npm install`.
 
 Ejecute el siguiente comando para iniciar la migración.
 
-```js
+```terminal
 adonis migration:run
 ```
+
+### Sirviendo la aplicación
+
+Ejecute el siguiente comando para servir la aplicación.
+
+```terminal
+adonis serve --dev
+```
+
+En su navegador diríjase a la siguiente url `http://localhost:3333`
