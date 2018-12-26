@@ -27,14 +27,15 @@ API_SERVER=http://localhost:4444
 Luego ejecute el comando `npm install`.
 
 
-### Migraciones
+### Instalacion y ejecución
 
-Clone this repo and run
+Clone este repositorio y ejecute el comando
 
 ```bash
 npm install
 ```
-Then install npm got
+Luego instale npm got con el comando
+
 ```bash
 npm install got
 ```
