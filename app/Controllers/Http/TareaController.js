@@ -1,12 +1,14 @@
 'use strict'
 
 const Tarea = use('App/Models/Tarea')
+const data = use('App/Utils/Data')
 const { validate } = use('Validator')
 
 class TareaController {
     async index ({view}){
-        const tareas = await Tarea.all()
-        return view.render('tareas.index', {tareas: tareas.toJSON()})
+        var obj = []
+        const result = await data.execApiGet('/tareas',obj);
+        return view.render('tareas.index', {tareas: result.body.data})
     }
 
     async store ({request,response,session}){
@@ -21,23 +23,31 @@ class TareaController {
             return response.redirect('back')
         }
 
-        const tarea = new Tarea()
-        tarea.title = request.input('title')
-        tarea.status = '1'
+        var body = {
+            title: request.input('title'),
+            status: "1"
+        }
 
-        await tarea.save()
+        const result = await data.execApiPost('/tareas',body);
 
-        session.flash({ notification: 'Tarea Añadida' })
+        if(result.body.status == 'OK'){
+            session.flash({ notification: 'Tarea añadida' })
+        }else{
+            session.flash({ notification: 'Tarea no pudo ser añadida' })
+        }
 
         return response.redirect('back')
     }
 
     async destroy({params, session, response}){
-        const tarea = await Tarea.find(params.id)
-
-        await tarea.delete()
-
-        session.flash({ notification: 'Tarea borrada' })
+        var obj=[]
+        const result = await data.execApiDelete('/tareas/'+params.id,obj);
+        if(result.body.status == 'OK'){
+            session.flash({ notification: 'Tarea borrada' })
+        }else{
+            session.flash({ notification: 'No se pudo borrar' })
+        }
+        console.log(result)
 
         return response.redirect('back')
     }
@@ -53,17 +63,19 @@ class TareaController {
 
             return response.redirect('back')
         }
-        const tarea = await Tarea.find(params.id)
 
-        if(tarea.title === request.input('title')){
-            session.flash({ notification: 'No existen cambios' })
-        }else{
-            tarea.title = request.input('title')
-
-            await tarea.save()
-
-            session.flash({ notification: 'Tarea modificada' })
+        var obj = {
+            title: request.input('title'),
+            status: "1"
         }
+
+        const result = await data.execApiPut('/tareas/'+params.id,obj);
+        if(result.body.status == 'OK'){
+            session.flash({ notification: 'Tarea modificada' })
+        }else{
+            session.flash({ notification: 'No se pudo modificar' })
+        }
+        console.log(result)
 
         return response.redirect('back')
     }
