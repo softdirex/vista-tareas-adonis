@@ -1,17 +1,33 @@
-# Adonis fullstack application
+# Adonis Vista Tareas
 
-This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
+Esta es una aplicacion de prueba cuya funcionalidad es visualizar los datos obtenidos tanto desde la base de datos como de la api
 
-1. Bodyparser
-2. Session
-3. Authentication
-4. Web security middleware
-5. CORS
-6. Edge template engine
-7. Lucid ORM
-8. Migrations and seeds
+## Configuración de entorno
 
-## Setup
+Copie el siguiente fragmento y péguelo en su archivo `.env`
+
+```.env
+HOST=127.0.0.1
+PORT=3333
+NODE_ENV=development
+APP_URL=http://${HOST}:${PORT}
+CACHE_VIEWS=false
+APP_KEY=Wn1ysVHJ5dOsjFN5gFEuMyHnfzLSOdOK
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=
+DB_DATABASE=adonis-tareas
+SESSION_DRIVER=cookie
+HASH_DRIVER=bcrypt
+API_SERVER=http://localhost:4444
+```
+
+Luego ejecute el comando `npm install`.
+
+
+### Migraciones
 
 Clone this repo and run
 
@@ -24,10 +40,10 @@ npm install got
 ```
 
 
-### Migrations
+Ejecute el siguiente comando para servir la aplicación.
 
-Run the following command to run startup migrations.
-
-```js
-adonis migration:run
+```terminal
+adonis serve --dev
 ```
+
+En su navegador diríjase a la siguiente url `http://localhost:3333`
